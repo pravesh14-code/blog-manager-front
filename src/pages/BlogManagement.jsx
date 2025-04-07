@@ -60,7 +60,7 @@ const BlogManagement = () => {
       blogs.push({ ...finalData, id: `b${blogs.length + 1}`, authorId: 1, likes: [], comments: [], createdAt: new Date().toISOString() });
       console.log('Created new blog:', finalData);
     }
-    navigate('/');
+    navigate('/home');
   };
 
   const handleDeleteBlog = () => {
@@ -68,7 +68,7 @@ const BlogManagement = () => {
       const index = blogs.findIndex(blog => blog.id === id);
       blogs.splice(index, 1);
       console.log('Deleted blog with id:', id);
-      navigate('/');
+      navigate('/home');
     }
   };
 

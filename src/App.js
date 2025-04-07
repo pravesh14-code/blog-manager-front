@@ -1,6 +1,9 @@
 import './App.css';
 import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { AuthProvider } from './contexts/AuthContext';
+
 import Home from './pages/Home';
 import BlogDetails from './pages/BlogDetails';
 import BlogManagement from './pages/BlogManagement';
@@ -14,10 +17,19 @@ import Footer from './components/Footer';
 
 const AppLayout = () => {
   const location = useLocation();
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
+  const isAuthPage = location.pathname === '/' || location.pathname === '/signup';
 
   return (
     <div className="App min-h-screen flex flex-col">
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          style: {
+            textAlign: 'left',
+          },
+        }}
+      />
       {!isAuthPage && (
         <div className="fixed top-0 left-0 w-full z-10 bg-white shadow-sm">
           <Header />
@@ -26,19 +38,18 @@ const AppLayout = () => {
 
       <div className={`${!isAuthPage ? 'pt-20' : ''} flex-1`}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/blog/:id" element={<BlogDetails />} />
-          {/* Create new blog */}
           <Route path="/blog-management" element={<BlogManagement />} />
-          {/* Edit existing blog by ID */}
           <Route path="/blog-management/:id" element={<BlogManagement />} />
           <Route path="/my-blogs" element={<MyBlogs />} />
           <Route path="/my-personal-dairy" element={<MyPersonalDiary />} />
           <Route path="/saved-blogs" element={<SavedBlogs />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
       </div>
+
       {!isAuthPage && <Footer />}
     </div>
   );
@@ -46,9 +57,11 @@ const AppLayout = () => {
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppLayout />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <AppLayout />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

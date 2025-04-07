@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import toast from 'react-hot-toast';
+import { RingLoader } from 'react-spinners'; 
 
 const Login = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -11,10 +16,43 @@ const Login = () => {
   } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const togglePassword = () => setShowPassword((prev) => !prev);
 
-  const onSubmit = (data) => {
-    console.log('Login submitted:', data);
+  const onSubmit = async (data) => {
+    const payload = {
+      email: data.email,
+      password: data.password,
+    };
+
+    setLoading(true);
+
+    try {
+      await login(payload);
+      toast.success('Login Successful \nRedirecting to your dashboard...', {
+        duration: 1500,
+        style: {
+          background: '#22c55e',
+          color: '#fff',
+        },
+        description: '', 
+      });
+
+      setTimeout(() => {
+        navigate('/home');
+      }, 1500);
+
+    } catch (err) {
+      toast.error('Login Failed \nThere was an issue with your login. Please try again later.', {
+        duration: 3000,
+        style: {
+          background: '#dc2626',
+          color: '#fff',
+        },
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -87,12 +125,18 @@ const Login = () => {
             )}
           </div>
 
-          <button
-            type="submit"
-            className="w-full py-2 px-4 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition font-medium"
-          >
-            Log In
-          </button>
+          {loading ? (
+            <div className="flex justify-center">
+              <RingLoader size={40} color="#F59E0B" loading={loading} /> {/* Show circular loader */}
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="w-full py-2 px-4 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition font-medium"
+            >
+              Log In
+            </button>
+          )}
         </form>
 
         <p className="text-sm text-gray-500 mt-6 text-center">

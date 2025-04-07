@@ -38,7 +38,7 @@ const Header = () => {
         </button>
 
         <div className="flex-1 text-center text-xl font-semibold text-black">
-          <Link to="/">BlogNest</Link>
+          <Link to="/home">BlogNest</Link>
         </div>
 
         <div className="w-6" />
@@ -56,11 +56,11 @@ const Header = () => {
       </div>
 
       <div className="hidden md:flex text-xl font-medium text-black tracking-wide">
-        <Link to="/">BlogNest</Link>
+        <Link to="/home">BlogNest</Link>
       </div>
 
       <div className="hidden md:flex items-center gap-6 text-gray-800 text-sm">
-        <Link to="/" className="hover:text-yellow-600">Home</Link>
+        <Link to="/home" className="hover:text-yellow-600">Home</Link>
         <Link to="/my-blogs" className="hover:text-yellow-600">My Blogs</Link>
         <Link to="/saved-blogs" className="hover:text-yellow-600">Saved Blogs</Link>
 
@@ -121,7 +121,7 @@ const Header = () => {
 
               <div className="px-4 pt-3 pb-1 text-gray-500 text-xs uppercase tracking-wide">Account</div>
               <Link
-                to="/login"
+                to="/"
                 className="block w-full text-left pl-6 pr-4 py-2 text-red-500 hover:bg-gray-100"
               >
                 Sign Out
@@ -142,7 +142,7 @@ const Header = () => {
           <div className="text-xl font-bold text-center py-4">BlogNest</div>
           <hr className="my-2 border-t border-yellow-300" />
 
-          <Link to="/" onClick={toggleMenu} className="pl-4 py-1 hover:text-yellow-600 transition-colors duration-200">
+          <Link to="/home" onClick={toggleMenu} className="pl-4 py-1 hover:text-yellow-600 transition-colors duration-200">
             Home
           </Link>
 
@@ -169,7 +169,7 @@ const Header = () => {
             Profile
           </Link>
           <Link
-            to="/login"
+            to="/"
             className="pl-4 py-1 text-red-500 hover:text-red-700 text-left transition-colors duration-200"
           >
             Sign Out

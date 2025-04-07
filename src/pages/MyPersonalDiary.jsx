@@ -1,13 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import BlogGridLayout from '../sections/BlogGridLayout';
-import { blogs, users } from '../data/dummyData';
+import { getAllPrivateBlogs } from '../api/blogApi';  
+import { RingLoader } from 'react-spinners'; 
 
 const MyPersonalDiary = () => {
-  const currentUser = users[0]; 
+  const [privateBlogs, setPrivateBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const privateBlogs = blogs.filter(
-    blog => blog.isPrivate && blog.authorId === currentUser.id
-  );
+  const token = localStorage.getItem('token');  
+
+  useEffect(() => {
+    const fetchPrivateBlogs = async () => {
+      try {
+        const blogs = await getAllPrivateBlogs(token);  
+        setPrivateBlogs(blogs);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to load private blogs');
+        setLoading(false);
+      }
+    };
+
+    if (token) {
+      fetchPrivateBlogs();
+    }
+  }, [token]);
+
+  if (loading) return (
+    <div className="flex justify-center items-center min-h-screen">
+      <RingLoader color="#f59e0b" size={60} />
+    </div>
+  );  if (error) return <div>{error}</div>;
 
   return (
     <div className="px-4 py-6">

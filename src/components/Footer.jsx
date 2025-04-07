@@ -8,7 +8,7 @@ const Footer = () => {
                     <h3 className="text-yellow-600 font-semibold mb-4 text-base">Home</h3>
                     <ul className="space-y-2 text-gray-300 text-left">
                         <li>
-                            <Link to="/" className="hover:text-yellow-600 block">
+                            <Link to="/home" className="hover:text-yellow-600 block">
                                 Home
                             </Link>
                         </li>

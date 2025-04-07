@@ -1,31 +1,59 @@
-import React, { useRef } from 'react';
-import TopBlog from '../sections/TrendingBlog';
+import React, { useEffect, useState } from 'react';
+import { getAllPublicBlogs } from '../api/blogApi';
+import TrendingBlog from '../sections/TrendingBlog';
 import BlogGridLayout from '../sections/BlogGridLayout';
-import { blogs } from '../data/dummyData';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { RingLoader } from 'react-spinners';
 
 const Home = () => {
-  const publicBlogs = blogs.filter(blog => !blog.isPrivate);
+  const [publicBlogs, setPublicBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const blogRef = useRef(null);
-  const isInView = useInView(blogRef, { once: true, margin: '-100px' });
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const blogs = await getAllPublicBlogs();
+        console.log("blogs", blogs);
+        setPublicBlogs(blogs);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to load blogs');
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  if (loading) return (
+    <div className="flex justify-center items-center min-h-screen">
+      <RingLoader color="#f59e0b" size={60} />
+    </div>
+  );
+  if (error) return <div>{error}</div>;
+
+  // Extract the three most liked blogs
+  const trendingBlogs = publicBlogs
+    .filter(blog => blog.is_public)
+    .sort((a, b) => b.likeCount - a.likeCount)
+    .slice(0, 3);
 
   return (
     <>
       <div className="px-4">
-        <TopBlog />
+        <TrendingBlog trendingBlogs={trendingBlogs} />
       </div>
 
       <motion.div
-        ref={blogRef}
         initial={{ opacity: 0, y: 40 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className="px-4 py-10"
       >
         <h1 className="text-3xl font-bold mb-2">Blog</h1>
         <p className="text-gray-600 mb-6">
-          Here, we share travel tips, destination guides, and stories that inspire your next adventure.
+          Here, we share coding tips, travel guides, and stories that inspire your next adventure.
         </p>
 
         <BlogGridLayout blogs={publicBlogs} />

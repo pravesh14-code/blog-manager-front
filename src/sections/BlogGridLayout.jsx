@@ -97,11 +97,17 @@ const BlogGridLayout = ({ blogs }) => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        {currentBlogs.map((blog) => (
-          <BlogCard key={blog.id} blog={blog} />
-        ))}
-      </div>
+      {currentBlogs.length === 0 ? (
+        <div className="text-center text-gray-600 font-medium py-10">
+          You don't have any blogs on this page
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          {currentBlogs.map((blog) => (
+            <BlogCard key={blog.id} blog={blog} />
+          ))}
+        </div>
+      )}
 
       {pageCount > 1 && (
         <ReactPaginate
