@@ -62,7 +62,7 @@ const BlogCard = ({ blog }) => {
 
         <div className="flex flex-col justify-between flex-grow p-4 text-left">
           <div className="flex items-center justify-between text-sm text-gray-700 mb-1">
-            <span>{blog.created_at}</span>
+            <span>{new Date(blog.created_at).toLocaleDateString('en-GB')}</span>
             <div className="flex items-center gap-4 text-gray-600">
               {blog.is_public && (
                 <>
