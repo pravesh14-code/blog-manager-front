@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:5000/api/blogs';
 // Fetch all public blogs
 export const getAllPublicBlogs = async () => {
     try {
-        const response = await axios.get(`${API_URL}`);  
+        const response = await axios.get(`${API_URL}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching public blogs:', error);
@@ -19,7 +19,7 @@ export const getAllPrivateBlogs = async (token) => {
     try {
         const response = await axios.get(`${API_URL}/private`, {
             headers: {
-                Authorization: `Bearer ${token}`, 
+                Authorization: `Bearer ${token}`,
             },
         });
         return response.data;
@@ -34,7 +34,7 @@ export const getAllSavedBlogs = async (token) => {
     try {
         const response = await axios.get(`${API_URL}/saved`, {
             headers: {
-                Authorization: `Bearer ${token}`, 
+                Authorization: `Bearer ${token}`,
             },
         });
         return response.data;
@@ -50,7 +50,7 @@ export const getMyBlogs = async (token) => {
     try {
         const response = await axios.get(`${API_URL}/myblog`, {
             headers: {
-                Authorization: `Bearer ${token}`, 
+                Authorization: `Bearer ${token}`,
             },
         });
         return response.data;
@@ -59,3 +59,60 @@ export const getMyBlogs = async (token) => {
         throw error;
     }
 };
+
+// Create a new blog (for the logged-in user)
+export const createBlog = async (blogData, token) => {
+    try {
+        const response = await axios.post(API_URL, blogData, {
+            headers: {
+                Authorization: `Bearer ${token}`, // Add token for authentication
+            },
+        });
+        return response.data; // Return the created blog data
+    } catch (error) {
+        console.error('Error creating blog:', error);
+        throw error;
+    }
+};
+
+// Blog Latest Details
+export const getById = async (id) => {
+    try {
+        const response = await axios.get(`${API_URL}/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching blog by ID:', error);
+        throw error;
+    }
+};
+
+// Update Blog (for the logged-in user)
+export const updateBlog = async (id, blogData, token) => {
+    try {
+        const response = await axios.put(`${API_URL}/${id}`, blogData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating blog:', error);
+        throw error;
+    }
+};
+
+// Delete Blog (for the logged-in user)
+export const deleteBlog = async (id, token) => {
+    try {
+        const response = await axios.delete(`${API_URL}/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting blog:', error);
+        throw error;
+    }
+};
+

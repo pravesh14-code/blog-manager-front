@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DefaultProfile from '../assets/default_profile.jpg';
+import BlogDefaultWallPaper from '../assets/blog_default_wallpaper.jpg';
 
 const TrendingBlogCard = ({ blog }) => {
   return (
     <Link to={`/blog/${blog.id}`} className="block">
       <div
         className="relative w-full h-[600px] sm:h-[600px] md:h-[600px] lg:h-[700px] rounded-xl overflow-hidden"
-        style={{ backgroundImage: `url(${blog.media[0]})`, backgroundSize: "cover", backgroundPosition: "center" }}
+        style={{ backgroundImage: `url(${blog.media[0] || BlogDefaultWallPaper})`, backgroundSize: "cover", backgroundPosition: "center" }}
       >
         <div className="absolute inset-0 bg-black/30 flex flex-col justify-end px-4 sm:px-6 md:px-10 py-6 sm:py-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end text-white w-full mb-4 sm:mb-6 gap-4">

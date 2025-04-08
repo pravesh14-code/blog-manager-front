@@ -1,8 +1,8 @@
 import './App.css';
-import React from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 import Home from './pages/Home';
 import BlogDetails from './pages/BlogDetails';
@@ -14,10 +14,27 @@ import MyPersonalDiary from './pages/MyPersonalDiary';
 import SavedBlogs from './pages/SavedBlogs';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import SessionExpiredModal from './components/SessionExpiredModal'; 
 
 const AppLayout = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { token } = useAuth();
+  const [showSessionModal, setShowSessionModal] = useState(false);
+  const [wasAuthenticated] = useState(!!token);
+
   const isAuthPage = location.pathname === '/' || location.pathname === '/signup';
+
+  useEffect(() => {
+    if (wasAuthenticated && !token) {
+      setShowSessionModal(true);
+    }
+  }, [token, wasAuthenticated]);
+
+  const handleSessionModalConfirm = () => {
+    setShowSessionModal(false);
+    navigate('/');
+  };
 
   return (
     <div className="App min-h-screen flex flex-col">
@@ -25,11 +42,10 @@ const AppLayout = () => {
         position="top-right"
         reverseOrder={false}
         toastOptions={{
-          style: {
-            textAlign: 'left',
-          },
+          style: { textAlign: 'left' },
         }}
       />
+
       {!isAuthPage && (
         <div className="fixed top-0 left-0 w-full z-10 bg-white shadow-sm">
           <Header />
@@ -51,6 +67,7 @@ const AppLayout = () => {
       </div>
 
       {!isAuthPage && <Footer />}
+      {showSessionModal && <SessionExpiredModal onConfirm={handleSessionModalConfirm} />}
     </div>
   );
 };

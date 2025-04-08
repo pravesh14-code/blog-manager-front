@@ -4,6 +4,7 @@ import TrendingBlog from '../sections/TrendingBlog';
 import BlogGridLayout from '../sections/BlogGridLayout';
 import { motion } from 'framer-motion';
 import { RingLoader } from 'react-spinners';
+import { Helmet } from 'react-helmet';
 
 const Home = () => {
   const [publicBlogs, setPublicBlogs] = useState([]);
@@ -14,7 +15,6 @@ const Home = () => {
     const fetchBlogs = async () => {
       try {
         const blogs = await getAllPublicBlogs();
-        console.log("blogs", blogs);
         setPublicBlogs(blogs);
         setLoading(false);
       } catch (err) {
@@ -41,6 +41,9 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Home | BlogNest</title>
+      </Helmet>
       <div className="px-4">
         <TrendingBlog trendingBlogs={trendingBlogs} />
       </div>

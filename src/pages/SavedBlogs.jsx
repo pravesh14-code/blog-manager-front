@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BlogGridLayout from '../sections/BlogGridLayout';
 import { getAllSavedBlogs } from '../api/blogApi';
 import { RingLoader } from 'react-spinners';
+import { Helmet } from 'react-helmet';
 
 const SavedBlogs = () => {
   const [savedBlogs, setSavedBlogs] = useState([]);
@@ -34,13 +35,19 @@ const SavedBlogs = () => {
   ); if (error) return <div>{error}</div>;
 
   return (
-    <div className="px-4 py-6">
-      <h1 className="text-3xl font-bold mb-2">Saved Blogs</h1>
-      <p className="text-gray-600 mb-6">
-        Your saved blogs, ready to revisit whenever you need inspiration or ideas.
-      </p>
-      <BlogGridLayout blogs={savedBlogs} />
-    </div>
+    <>
+      <Helmet>
+        <title>Saved Blogs | BlogNest</title>
+      </Helmet>
+
+      <div className="px-4 py-6">
+        <h1 className="text-3xl font-bold mb-2">Saved Blogs</h1>
+        <p className="text-gray-600 mb-6">
+          Your saved blogs, ready to revisit whenever you need inspiration or ideas.
+        </p>
+        <BlogGridLayout blogs={savedBlogs} />
+      </div>
+    </>
   );
 };
 
