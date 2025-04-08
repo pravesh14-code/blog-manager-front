@@ -1,7 +1,8 @@
 // src/api/savedApi.js
 import axios from 'axios';
+import { BASE_API_URL } from './apiConfig';
 
-const API_URL = 'http://localhost:5000/api/saves';
+const API_URL = `${BASE_API_URL}/saves`;
 
 /**
  * Toggle saved state of a blog post.

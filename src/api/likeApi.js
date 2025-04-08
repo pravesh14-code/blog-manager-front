@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { BASE_API_URL } from './apiConfig';
 
-const API_URL = 'http://localhost:5000/api/likes';
+const API_URL = `${BASE_API_URL}/likes`;
 
 /**
  * Toggle the like status of a post.

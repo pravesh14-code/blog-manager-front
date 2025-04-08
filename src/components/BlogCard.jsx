@@ -13,7 +13,8 @@ const BlogCard = ({ blog }) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   const userId = userData?.id;
 
-  const saved = blog.savedBy.some(entry => entry.user_id === userId);
+  const liked = blog.likesBy?.some(entry => entry.user_id === userId);
+  const saved = blog.savedBy?.some(entry => entry.user_id === userId);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDeleteClick = (e) => {
@@ -67,7 +68,7 @@ const BlogCard = ({ blog }) => {
                 <>
                   <LikeBlog
                     postId={blog.id}
-                    initialLiked={blog.user_id === userId}
+                    initialLiked={liked}
                     initialLikeCount={blog.likeCount}
                   />
                   <SavedBlog postId={blog.id} initialSaved={saved} />

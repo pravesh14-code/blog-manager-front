@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { BASE_API_URL } from './apiConfig';
 
-const API_URL = 'http://localhost:5000/api/comments';
+const API_URL = `${BASE_API_URL}/comments`;
 
 // Get all comments by post ID (public)
 export const getCommentsByPost = async (postId) => {
